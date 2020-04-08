@@ -11,12 +11,12 @@ checkgudangadmin();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Tambah Item</h1>
+            <h1 class="m-0 text-dark">Tambah Barang</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Tambah Item</li>
+              <li class="breadcrumb-item active">Tambah Barang</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -37,7 +37,7 @@ checkgudangadmin();
           <div class="card card-outline card-primary">
             <div class="card-header">
               <h3 class="card-title">
-                Form Tambah Item Barang
+                Form Tambah Barang
               </h3>
             </div>
             <!-- /.card-header -->
@@ -47,22 +47,20 @@ checkgudangadmin();
 
             <?php
               if(isset($_POST['simpan'])){
-                $barcode       = $_POST['barcode'];
-                $nama_barang   = $_POST['nama_barang'];
-                $harga_beli    = $_POST['harga_beli'];
+                $barcode           = $_POST['barcode'];
+                $nama_barang     = $_POST['nama_barang'];
                 $harga_jual    = $_POST['harga_jual'];
-                $nama_kategori = $_POST['nama_kategori'];
-                $nama_satuan   = $_POST['nama_satuan'];
-                $diskon_item   = $_POST['diskon_item'];
-                $qty           = $_POST['qty'];
+                $kategori    = $_POST['kategori'];
+                $satuan    = $_POST['satuan'];
+                $stock   = $_POST['stock'];
                 
-                $cek = mysqli_query($koneksi, "SELECT * FROM item WHERE barcode='$barcode'") or die(mysqli_error($koneksi));
+                $cek = mysqli_query($koneksi, "SELECT * FROM barang WHERE barcode='$barcode'") or die(mysqli_error($koneksi));
                 
                 if(mysqli_num_rows($cek) == 0){
-                  $sql = mysqli_query($koneksi, "INSERT INTO item(barcode, nama_barang, harga_beli, harga_jual, stock) VALUES('$barcode', '$nama_barang', '$harga_beli', '$harga_jual', '$stock')") or die(mysqli_error($koneksi));
+                  $sql = mysqli_query($koneksi, "INSERT INTO barang(barcode, nama_barang, harga_jual, kategori, satuan, stock) VALUES('$barcode', '$nama_barang', '$harga_jual', '$kategori', '$satuan', '$stock')") or die(mysqli_error($koneksi));
                   
                   if($sql){
-                    echo '<script>alert("Berhasil menambahkan data."); document.location="?page=item";</script>';
+                    echo '<script>alert("Berhasil menambahkan data."); document.location="?page=barang";</script>';
                   }else{
                     echo '<div class="alert alert-warning">Gagal melakukan proses tambah data.</div>';
                   }
@@ -83,22 +81,26 @@ checkgudangadmin();
                   <input class="form-control" type="text" name="nama_barang" placeholder="Nama Barang" required>
                 </div>
                 <div>
-                  <label>Harga Beli</label>
-                  <input class="form-control" type="number" name="harga_beli" placeholder="Harga Beli" required>
-                </div>
-                <div>
                 <div>
                   <label>Harga Jual</label>
                   <input class="form-control" type="number" name="harga_jual" placeholder="Harga Jual" required>
                 </div>
                 <div>
-                  <label>Qty</label>
-                  <input class="form-control" type="number" name="qty" placeholder="Qty" required>
+                  <label>Kategori</label>
+                  <input class="form-control" type="number" name="kategori" placeholder="Kategori" required>
+                </div>
+                <div>
+                  <label>Satuan</label>
+                  <input class="form-control" type="number" name="satuan" placeholder="Satuan" required>
+                </div>
+                <div>
+                  <label>Stock</label>
+                  <input class="form-control" type="number" name="stock" placeholder="Stock" required>
                 </div>
                 <br>
                 <div>
                   <button type="submit" name="simpan" class="btn btn-primary" style="line-height: 17px;">Simpan</button>
-                  <a class="btn btn-danger" style="line-height: 18px;" href="?page=item">Kembali</a>
+                  <a class="btn btn-danger" style="line-height: 18px;" href="?page=barang">Kembali</a>
                 </div>
               </form>
             </div>

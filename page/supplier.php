@@ -55,7 +55,7 @@ checkgudangadmin();
                 <tbody>
                 <?php
                 //query ke database SELECT tabel mahasiswa urut berdasarkan id yang paling besar
-                $sql = mysqli_query($koneksi, "SELECT * FROM supplier ORDER BY id_supplier ASC") or die(mysqli_error($koneksi));
+                $sql = mysqli_query($koneksi, "SELECT * FROM supplier ORDER BY id ASC") or die(mysqli_error($koneksi));
                 //jika query diatas menghasilkan nilai > 0 maka menjalankan script di bawah if...
                 if(mysqli_num_rows($sql) > 0){
                   //membuat variabel $no untuk menyimpan nomor urut
@@ -71,8 +71,8 @@ checkgudangadmin();
                       <td>'.$data['email'].'</td>
                       <td>'.$data['telp'].'</td>
                       <td style="text-align: center;">
-                        <a href="index.php?page=edit_supplier&id_supplier='.$data['id_supplier'].'" class="btn btn-primary fa fa-edit" style="line-height: 17px;"> Edit</a>
-                        <a href="index.php?page=hapus_supplier&id_supplier='.$data['id_supplier'].'" class="btn btn-danger fa fa-edit" style="line-height: 17px;" onclick="return confirm(\'Yakin ingin menghapus data ini?\')"> Hapus</a>
+                        <a href="index.php?page=edit_supplier&id='.$data['id'].'" class="btn btn-primary fa fa-edit" style="line-height: 17px;"> Edit</a>
+                        <a href="index.php?page=hapus_supplier&id='.$data['id'].'" class="btn btn-danger fa fa-edit" style="line-height: 17px;" onclick="return confirm(\'Yakin ingin menghapus data ini?\')"> Hapus</a>
                       </td>
                     </tr>
                     ';

@@ -23,9 +23,9 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="?page=item" class="nav-link">
+    <a href="?page=barang" class="nav-link">
         <i class="nav-icon fas fa-cube"></i>
-        <p>Item Barang</p>
+        <p>Barang</p>
     </a>
 </li>
 <li class="nav-item">

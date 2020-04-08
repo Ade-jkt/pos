@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Mar 2020 pada 09.43
+-- Waktu pembuatan: 08 Apr 2020 pada 13.46
 -- Versi server: 10.1.31-MariaDB
 -- Versi PHP: 5.6.35
 
@@ -25,45 +25,65 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `disc_item`
+-- Struktur dari tabel `barang`
 --
 
-CREATE TABLE `disc_item` (
+CREATE TABLE `barang` (
   `id` int(11) NOT NULL,
-  `diskon_item` varchar(50) NOT NULL,
-  `qty` varchar(50) NOT NULL
+  `barcode` varchar(200) NOT NULL,
+  `nama_barang` varchar(200) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
+  `kategori_id` varchar(200) NOT NULL,
+  `satuan_id` varchar(100) NOT NULL,
+  `stock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `disc_item`
---
-
-INSERT INTO `disc_item` (`id`, `diskon_item`, `qty`) VALUES
-(1, '2000', '12'),
-(2, '5000', '10');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `item`
+-- Struktur dari tabel `detail_transaksi`
 --
 
-CREATE TABLE `item` (
+CREATE TABLE `detail_transaksi` (
   `id` int(11) NOT NULL,
-  `barcode` varchar(100) NOT NULL,
-  `nama_barang` varchar(50) NOT NULL,
-  `harga_beli` varchar(50) NOT NULL,
-  `harga_jual` varchar(50) NOT NULL,
-  `stock` varchar(50) NOT NULL
+  `transaksi_id` int(11) NOT NULL,
+  `barang_id` int(11) NOT NULL,
+  `qty` varchar(200) NOT NULL,
+  `harga_satuan` varchar(200) NOT NULL,
+  `subtotal` varchar(200) NOT NULL,
+  `diskon_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data untuk tabel `item`
+-- Struktur dari tabel `detail_transaksi_penjualan`
 --
 
-INSERT INTO `item` (`id`, `barcode`, `nama_barang`, `harga_beli`, `harga_jual`, `stock`) VALUES
-(1, '12345', 'Minyak', '13000', '15000', '100'),
-(2, '23456', 'Beras', '8000', '10000', '100');
+CREATE TABLE `detail_transaksi_penjualan` (
+  `id` int(11) NOT NULL,
+  `detail_transaksi_id` int(11) NOT NULL,
+  `pembelian_id` int(11) NOT NULL,
+  `barang_id` int(11) NOT NULL,
+  `terjual` varchar(200) NOT NULL,
+  `margin` varchar(200) NOT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `diskon`
+--
+
+CREATE TABLE `diskon` (
+  `id` int(11) NOT NULL,
+  `barang_id` varchar(200) NOT NULL,
+  `jumlah_diskon` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `tanggal_mulai` datetime NOT NULL,
+  `tanggal_selesai` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -81,8 +101,36 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id`, `nama_kategori`) VALUES
-(3, 'Makanan'),
-(4, 'Minuman');
+(1, 'Makanan'),
+(2, 'Minuman'),
+(3, 'Obat'),
+(4, 'Sampo'),
+(5, 'Sabun Mandi'),
+(6, 'Sabun Cuci Piring'),
+(7, 'Deterjen');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `metode_pembayaran`
+--
+
+CREATE TABLE `metode_pembayaran` (
+  `id` int(11) NOT NULL,
+  `nama_metode` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `metode_pembayaran`
+--
+
+INSERT INTO `metode_pembayaran` (`id`, `nama_metode`) VALUES
+(1, 'Cash'),
+(2, 'Debit'),
+(3, 'Kredit'),
+(4, 'Gopay'),
+(5, 'Ovo'),
+(6, 'Dana');
 
 -- --------------------------------------------------------
 
@@ -92,7 +140,7 @@ INSERT INTO `kategori` (`id`, `nama_kategori`) VALUES
 
 CREATE TABLE `pelanggan` (
   `id` int(11) NOT NULL,
-  `nama` varchar(200) NOT NULL,
+  `nama_pelanggan` varchar(200) NOT NULL,
   `alamat` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `telp` varchar(200) NOT NULL
@@ -102,9 +150,8 @@ CREATE TABLE `pelanggan` (
 -- Dumping data untuk tabel `pelanggan`
 --
 
-INSERT INTO `pelanggan` (`id`, `nama`, `alamat`, `email`, `telp`) VALUES
-(20, 'Ade', 'Jl. Terate Dalam No.2', 'ade@gmail.com', '085772263448'),
-(48, 'Agus', 'Jl. Bebas Hambatan', 'agus@gmail.com', '087878787877');
+INSERT INTO `pelanggan` (`id`, `nama_pelanggan`, `alamat`, `email`, `telp`) VALUES
+(1, 'Ade', 'Jl. Terate Dalam No.2', 'ade@gmail.com', '085772263448');
 
 -- --------------------------------------------------------
 
@@ -114,20 +161,22 @@ INSERT INTO `pelanggan` (`id`, `nama`, `alamat`, `email`, `telp`) VALUES
 
 CREATE TABLE `pembelian` (
   `id` int(11) NOT NULL,
-  `nama_supplier` varchar(50) NOT NULL,
-  `nama_barang` varchar(50) NOT NULL,
-  `kategori` varchar(50) NOT NULL,
-  `satuan` varchar(50) NOT NULL,
-  `qty` varchar(50) NOT NULL
+  `supplier_id` int(11) NOT NULL,
+  `barang_id` int(11) NOT NULL,
+  `harga_beli` varchar(200) NOT NULL,
+  `jumlah` varchar(100) NOT NULL,
+  `tanggal` date NOT NULL,
+  `terjual` varchar(200) NOT NULL,
+  `sisa` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `pembelian`
 --
 
-INSERT INTO `pembelian` (`id`, `nama_supplier`, `nama_barang`, `kategori`, `satuan`, `qty`) VALUES
-(3, 'PT. Bangun Bersama', 'Gula Pasir', 'Makanan', 'Kg', '100'),
-(4, 'PT. Terus Melangkah', 'Beras', 'Sembako', 'Liter', '300');
+INSERT INTO `pembelian` (`id`, `supplier_id`, `barang_id`, `harga_beli`, `jumlah`, `tanggal`, `terjual`, `sisa`) VALUES
+(3, 0, 0, 'Makanan', 'Kg', '0000-00-00', '', ''),
+(4, 0, 0, 'Sembako', 'Liter', '0000-00-00', '', '');
 
 -- --------------------------------------------------------
 
@@ -145,8 +194,13 @@ CREATE TABLE `satuan` (
 --
 
 INSERT INTO `satuan` (`id`, `nama_satuan`) VALUES
-(1, 'Lusin'),
-(3, 'Kg');
+(1, 'Kg'),
+(2, 'Liter'),
+(3, 'Lusin'),
+(4, 'Bungkus'),
+(5, 'Pcs'),
+(6, 'Karton'),
+(7, 'Botol');
 
 -- --------------------------------------------------------
 
@@ -156,7 +210,7 @@ INSERT INTO `satuan` (`id`, `nama_satuan`) VALUES
 
 CREATE TABLE `supplier` (
   `id` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
+  `nama_supplier` varchar(50) NOT NULL,
   `alamat` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telp` varchar(50) NOT NULL
@@ -166,7 +220,7 @@ CREATE TABLE `supplier` (
 -- Dumping data untuk tabel `supplier`
 --
 
-INSERT INTO `supplier` (`id`, `nama`, `alamat`, `email`, `telp`) VALUES
+INSERT INTO `supplier` (`id`, `nama_supplier`, `alamat`, `email`, `telp`) VALUES
 (1, 'PT. Susah Bersama', 'Jl. Bingung Amat', 'susah@gmail.com', '021-56565656'),
 (2, 'PT. Pantang Menyerah', 'Jl. Sukses', 'sukses@gmail.com', '021-656556575');
 
@@ -178,12 +232,15 @@ INSERT INTO `supplier` (`id`, `nama`, `alamat`, `email`, `telp`) VALUES
 
 CREATE TABLE `transaksi` (
   `id` int(11) NOT NULL,
-  `barcode` varchar(50) NOT NULL,
-  `nama_barang` varchar(50) NOT NULL,
-  `harga` varchar(50) NOT NULL,
-  `qty` varchar(50) NOT NULL,
+  `no_invoice` varchar(200) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `pelanggan_id` int(11) NOT NULL,
+  `total` varchar(200) NOT NULL,
+  `bayar` varchar(200) NOT NULL,
   `diskon` varchar(50) NOT NULL,
-  `sub_total` varchar(50) NOT NULL
+  `kembali` varchar(200) NOT NULL,
+  `metode_id` int(11) NOT NULL,
+  `no_kartu` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -198,38 +255,57 @@ CREATE TABLE `user` (
   `alamat` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telp` varchar(50) NOT NULL,
-  `jabatan` varchar(50) NOT NULL
+  `jabatan` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id`, `nama`, `alamat`, `email`, `telp`, `jabatan`) VALUES
-(1, 'Lila', 'Jl. Terate Raya', 'lila@gmail.com', '08577676767', 'Kasir'),
-(2, 'Admin', 'Jl. Terate Raya', 'admin@gmail.com', '085772263448', 'Admin'),
-(3, 'Agus', 'Jl. Terate Raya', 'agus@gmail.com', '08757776767', 'Gudang');
+INSERT INTO `user` (`id`, `nama`, `alamat`, `email`, `telp`, `jabatan`, `password`) VALUES
+(1, 'Admin', 'Jl. Terate Raya', 'admin@gmail.com', '08577676767', 'Admin', '123'),
+(2, 'Kasir', 'Jl. Terate Raya', 'kasir@gmail.com', '085772263448', 'Kasir', '123'),
+(3, 'Gudang', 'Jl. Terate Raya', 'gudang@gmail.com', '08757776767', 'Gudang', '123');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `disc_item`
+-- Indeks untuk tabel `barang`
 --
-ALTER TABLE `disc_item`
+ALTER TABLE `barang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `item`
+-- Indeks untuk tabel `detail_transaksi`
 --
-ALTER TABLE `item`
+ALTER TABLE `detail_transaksi`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `detail_transaksi_penjualan`
+--
+ALTER TABLE `detail_transaksi_penjualan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `diskon`
+--
+ALTER TABLE `diskon`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `metode_pembayaran`
+--
+ALTER TABLE `metode_pembayaran`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -273,28 +349,46 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `disc_item`
+-- AUTO_INCREMENT untuk tabel `barang`
 --
-ALTER TABLE `disc_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `barang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `item`
+-- AUTO_INCREMENT untuk tabel `detail_transaksi`
 --
-ALTER TABLE `item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `detail_transaksi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `detail_transaksi_penjualan`
+--
+ALTER TABLE `detail_transaksi_penjualan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `diskon`
+--
+ALTER TABLE `diskon`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT untuk tabel `metode_pembayaran`
+--
+ALTER TABLE `metode_pembayaran`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `pembelian`
@@ -306,7 +400,7 @@ ALTER TABLE `pembelian`
 -- AUTO_INCREMENT untuk tabel `satuan`
 --
 ALTER TABLE `satuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
@@ -318,7 +412,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`

@@ -45,16 +45,19 @@ checkadmin();
 
             <?php
               if(isset($_POST['simpan'])){
-                $diskon_item  = $_POST['diskon_item'];
-                $qty          = $_POST['qty'];
+                $barang_id                = $_POST['barang_id'];
+                $jumlah_diskon           = $_POST['jumlah_diskon'];
+                $qty                    = $_POST['qty'];
+                $tanggal_mulai         = $_POST['tanggal_mulai'];
+                $tanggal_selesai      = $_POST['tanggal_selesai'];
                 
-                $cek = mysqli_query($koneksi, "SELECT * FROM disc_item WHERE diskon_item='$diskon_item'") or die(mysqli_error($koneksi));
+                $cek = mysqli_query($koneksi, "SELECT * FROM diskon WHERE barang_id='$barang_id'") or die(mysqli_error($koneksi));
                 
                 if(mysqli_num_rows($cek) == 0){
-                  $sql = mysqli_query($koneksi, "INSERT INTO disc_item(diskon_item, qty) VALUES('$diskon_item', '$qty')") or die(mysqli_error($koneksi));
+                  $sql = mysqli_query($koneksi, "INSERT INTO diskon(barang_id, jumlah_diskon, qty, tanggal_mulai, tanggal_selesai) VALUES('$barang_id', '$jumlah_diskon', '$qty', '$tanggal_mulai', '$tanggal_selesai')") or die(mysqli_error($koneksi));
                   
                   if($sql){
-                    echo '<script>alert("Berhasil menambahkan data."); document.location="?page=diskon_item";</script>';
+                    echo '<script>alert("Berhasil menambahkan data."); document.location="?page=diskon";</script>';
                   }else{
                     echo '<div class="alert alert-warning">Gagal melakukan proses tambah data.</div>';
                   }
@@ -67,17 +70,29 @@ checkadmin();
 
               <form method="post" action="">
                 <div>
-                  <label>Diskon Item</label>
-                  <input class="form-control" type="text" name="diskon_item" placeholder="Diskon_item" required>
+                  <label>Nama Barang</label>
+                  <input class="form-control" type="text" name="nama_barang" placeholder="Nama Barang" required>
+                </div>
+                <div>
+                  <label>Jumlah Diskon</label>
+                  <input class="form-control" type="text" name="jumlah_diskon" placeholder="Jumlah Diskon" required>
                 </div>
                 <div>
                   <label>Qty</label>
                   <input class="form-control" type="text" name="qty" placeholder="Qty" required>
                 </div>
+                <div>
+                  <label>Tanggal Mulai</label>
+                  <input class="form-control" type="text" name="tanggal_mulai" placeholder="Tanggal Mulai" required>
+                </div>
+                <div>
+                  <label>Tanggal Selesai</label>
+                  <input class="form-control" type="text" name="tanggal_selesai" placeholder="Tanggal Selesai" required>
+                </div>
                 <br>
                 <div>
                   <button type="submit" name="simpan" class="btn btn-primary" style="line-height: 17px;">Simpan</button>
-                  <a class="btn btn-danger" style="line-height: 18px;" href="?page=diskon_item">Kembali</a>
+                  <a class="btn btn-danger" style="line-height: 18px;" href="?page=diskon">Kembali</a>
                 </div>
               </form>
             </div>

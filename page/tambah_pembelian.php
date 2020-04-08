@@ -47,17 +47,18 @@ checkgudangadmin();
 
             <?php
               if(isset($_POST['simpan'])){
-                $nama_supplier   = $_POST['nama_supplier'];
-                $nama_barang = $_POST['nama_barang'];
-                $kategori  = $_POST['kategori'];
-                $satuan   = $_POST['satuan'];
-                $qty   = $_POST['qty'];
+                $supplier_id       = $_POST['supplier_id'];
+                $barang_id       = $_POST['barang_id'];
+                $harga_beli      = $_POST['harga_beli'];
+                $jumlah        = $_POST['jumlah'];
+                $tanggal      = $_POST['tanggal'];
+                $terjual    = $_POST['terjual'];
+                $sisa     = $_POST['sisa'];
                 
-                $cek = mysqli_query($koneksi, "SELECT * FROM pembelian WHERE nama_supplier='$nama_supplier'") or die(mysqli_error($koneksi));
+                $cek = mysqli_query($koneksi, "SELECT * FROM pembelian WHERE supplier_id='$supplier_id'") or die(mysqli_error($koneksi));
                 
                 if(mysqli_num_rows($cek) == 0){
-                  $sql = mysqli_query($koneksi, "INSERT INTO pembelian(nama_supplier, nama_barang, kategori, satuan, qty) VALUES('$nama_supplier', '$nama_barang', '$kategori',
-                    '$satuan','$qty')") or die(mysqli_error($koneksi));
+                  $sql = mysqli_query($koneksi, "INSERT INTO pembelian(supplier_id, barang_id, harga_beli, jumlah, tanggal, terjual, sisa) VALUES('$supplier_id', '$barang_id', '$harga_beli','$jumlah', '$tanggal','$terjual','$sisa')") or die(mysqli_error($koneksi));
                   
                   if($sql){
                     echo '<script>alert("Berhasil menambahkan data."); document.location="?page=pembelian";</script>';
@@ -73,13 +74,13 @@ checkgudangadmin();
 
               <form method="post" action="">
                 <div>
-                  <label>Nama Supplier</label>
-                  <input class="form-control" type="text" name="nama_supplier" placeholder="Nama Supplier" required>
+                  <label>ID Supplier</label>
+                  <input class="form-control" type="text" name="supplier_id" placeholder="Nama Supplier" required>
                 </div>
                 <div>
                 <div>
-                  <label>Nama Barang</label>
-                  <input class="form-control" type="text" name="nama_barang" placeholder="Nama Barang" required>
+                  <label>ID Barang</label>
+                  <input class="form-control" type="text" name="barang_id" placeholder="Nama Barang" required>
                 </div>
                 <div>
                   <label>Kategori</label>

@@ -46,12 +46,12 @@ checkgudangadmin();
 
             <?php
               //jika sudah mendapatkan parameter GET id dari URL
-              if(isset($_GET['id_supplier'])){
+              if(isset($_GET['id'])){
                 //membuat variabel $id untuk menyimpan id dari GET id di URL
-                $id = $_GET['id_supplier'];
+                $id = $_GET['id'];
                 
                 //query ke database SELECT tabel mahasiswa berdasarkan id = $id
-                $select = mysqli_query($koneksi, "SELECT * FROM supplier WHERE id_supplier='$id'") or die(mysqli_error($koneksi));
+                $select = mysqli_query($koneksi, "SELECT * FROM supplier WHERE id='$id'") or die(mysqli_error($koneksi));
                 
                 //jika hasil query = 0 maka muncul pesan error
                 if(mysqli_num_rows($select) == 0){
@@ -75,7 +75,7 @@ checkgudangadmin();
                 $email    = $_POST['email'];
                 $telp    = $_POST['telp'];
                 
-                $sql = mysqli_query($koneksi, "UPDATE supplier SET nama_supplier='$nama', alamat='$alamat', email='$email', telp='$telp' WHERE id_supplier='$id'") or die(mysqli_error($koneksi));
+                $sql = mysqli_query($koneksi, "UPDATE supplier SET nama_supplier='$nama', alamat='$alamat', email='$email', telp='$telp' WHERE id='$id'") or die(mysqli_error($koneksi));
                 
                 if($sql){
                   echo '<script>alert("Berhasil menyimpan data."); document.location="?page=supplier";</script>';

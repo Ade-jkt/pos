@@ -11,12 +11,12 @@ checkgudangadmin();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Edit Item</h1>
+            <h1 class="m-0 text-dark">Edit Barang</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Edit Item</li>
+              <li class="breadcrumb-item active">Edit Barang</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -37,7 +37,7 @@ checkgudangadmin();
           <div class="card card-outline card-primary">
             <div class="card-header">
               <h3 class="card-title">
-                Form Edit Item
+                Form Edit Barang
               </h3>
             </div>
             <!-- /.card-header -->
@@ -47,12 +47,12 @@ checkgudangadmin();
 
             <?php
               //jika sudah mendapatkan parameter GET id dari URL
-              if(isset($_GET['id_item'])){
+              if(isset($_GET['id'])){
                 //membuat variabel $id untuk menyimpan id dari GET id di URL
-                $id = $_GET['id_item'];
+                $id = $_GET['id'];
                 
                 //query ke database SELECT tabel mahasiswa berdasarkan id = $id
-                $select = mysqli_query($koneksi, "SELECT * FROM item WHERE id_item='$id'") or die(mysqli_error($koneksi));
+                $select = mysqli_query($koneksi, "SELECT * FROM barang WHERE id='$id'") or die(mysqli_error($koneksi));
                 
                 //jika hasil query = 0 maka muncul pesan error
                 if(mysqli_num_rows($select) == 0){
@@ -71,16 +71,17 @@ checkgudangadmin();
             <?php
               //jika tombol simpan di tekan/klik
               if(isset($_POST['simpan'])){
-                $barcode     = $_POST['barcode'];
-                $nama_barang = $_POST['nama_barang'];
-                $harga_beli  = $_POST['harga_beli'];
-                $harga_jual  = $_POST['harga_jual'];
-                $stock       = $_POST['stock'];
+                $barcode           = $_POST['barcode'];
+                $nama_barang     = $_POST['nama_barang'];
+                $harga_jual    = $_POST['harga_jual'];
+                $kategori    = $_POST['kategori'];
+                $satuan    = $_POST['satuan'];
+                $stock   = $_POST['stock'];
                 
-                $sql = mysqli_query($koneksi, "UPDATE item SET barcode='$barcode', nama_barang='$nama_barang', harga_beli='$harga_beli', harga_jual='$harga_jual', stock='$stock' WHERE id_item='$id'") or die(mysqli_error($koneksi));
+                $sql = mysqli_query($koneksi, "UPDATE barang SET barcode='$barcode', nama_barang='$nama_barang', harga_jual='$harga_jual', kategori='$kategori', satuan=$satuan stock='$stock' WHERE id='$id'") or die(mysqli_error($koneksi));
                 
                 if($sql){
-                  echo '<script>alert("Berhasil menyimpan data."); document.location="?page=item";</script>';
+                  echo '<script>alert("Berhasil menyimpan data."); document.location="?page=barang";</script>';
                 }else{
                   echo '<div class="alert alert-warning">Gagal melakukan proses edit data.</div>';
                 }
@@ -101,14 +102,19 @@ checkgudangadmin();
                   value="<?php echo $data['nama_barang']; ?>">
                 </div>
                 <div>
-                  <label>Harga Beli</label>
-                  <input class="form-control" type="text" name="harga_beli" placeholder="Harga Beli"
-                  value="<?php echo $data['harga_beli']; ?>">
-                </div>
-                <div>
                   <label>Harga Jual</label>
                   <input class="form-control" type="text" name="harga_jual" placeholder="Harga Jual"
                   value="<?php echo $data['harga_jual']; ?>">
+                </div>
+                <div>
+                  <label>Kategori</label>
+                  <input class="form-control" type="text" name="kategori" placeholder="Kategori"
+                  value="<?php echo $data['kategori']; ?>">
+                </div>
+                <div>
+                  <label>Satuan</label>
+                  <input class="form-control" type="text" name="satuan" placeholder="Satuan"
+                  value="<?php echo $data['satuan']; ?>">
                 </div>
                 <div>
                   <label>Stock</label>
@@ -117,7 +123,7 @@ checkgudangadmin();
                 </div><br>
                 <div>
                   <button type="submit" name="simpan" class="btn btn-primary" style="line-height: 17px;" value="simpan">Simpan</button>
-                  <a class="btn btn-danger" style="line-height: 18px;" href="?page=item">Kembali</a>
+                  <a class="btn btn-danger" style="line-height: 18px;" href="?page=barang">Kembali</a>
                 </div>
               </form>
             </div>

@@ -46,11 +46,13 @@ checkgudangadmin();
                 <thead>
                 <tr>
                   <th style="width: 15px; text-align: center;">No</th>
-                  <th>Nama Supplier</th>
-                  <th>Nama Barang</th>
-                  <th>Kategori</th>
-                  <th>Satuan</th>
-                  <th>Qty</th>
+                  <th>ID Supplier</th>
+                  <th>ID Barang</th>
+                  <th>Harga Beli</th>
+                  <th>Jumlah</th>
+                  <th>Tanggal</th>
+                  <th>Terjual</th>
+                  <th>Sisa</th>
                   <th style="text-align: center;">Aksi</th>
                 </tr>
                 </thead>
@@ -68,11 +70,13 @@ checkgudangadmin();
                     echo '
                     <tr>
                       <td style="width: 15px; text-align: center;">'.$no.'</td>
-                      <td>'.$data['nama_supplier'].'</td>
-                      <td>'.$data['nama_barang'].'</td>
-                      <td>'.$data['kategori'].'</td>
-                      <td>'.$data['satuan'].'</td>
-                      <td>'.$data['qty'].'</td>
+                      <td>'.$data['supplier_id'].'</td>
+                      <td>'.$data['barang_id'].'</td>
+                      <td>'.$data['harga_beli'].'</td>
+                      <td>'.$data['jumlah'].'</td>
+                      <td>'.$data['tanggal'].'</td>
+                      <td>'.$data['terjual'].'</td>
+                      <td>'.$data['sisa'].'</td>
                       <td style="text-align: center;">
                         <a href="index.php?page=edit_pembelian&id='.$data['id'].'" class="btn btn-primary fa fa-edit" style="line-height: 17px;"> Edit</a>
                         <a href="index.php?page=hapus_pembelian&id='.$data['id'].'" class="btn btn-danger fa fa-edit" style="line-height: 17px;" onclick="return confirm(\'Yakin ingin menghapus data ini?\')"> Hapus</a>

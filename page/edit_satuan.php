@@ -46,12 +46,12 @@ checkgudangadmin();
 
             <?php
               //jika sudah mendapatkan parameter GET id dari URL
-              if(isset($_GET['id_satuan'])){
+              if(isset($_GET['id'])){
                 //membuat variabel $id untuk menyimpan id dari GET id di URL
-                $id = $_GET['id_satuan'];
+                $id = $_GET['id'];
                 
                 //query ke database SELECT tabel mahasiswa berdasarkan id = $id
-                $select = mysqli_query($koneksi, "SELECT * FROM satuan WHERE id_satuan='$id'") or die(mysqli_error($koneksi));
+                $select = mysqli_query($koneksi, "SELECT * FROM satuan WHERE id='$id'") or die(mysqli_error($koneksi));
                 
                 //jika hasil query = 0 maka muncul pesan error
                 if(mysqli_num_rows($select) == 0){
@@ -72,7 +72,7 @@ checkgudangadmin();
               if(isset($_POST['simpan'])){
                 $nama_satuan     = $_POST['nama_satuan'];
 
-                $sql = mysqli_query($koneksi, "UPDATE satuan SET nama_satuan='$nama_satuan' WHERE id_satuan='$id'") or die(mysqli_error($koneksi));
+                $sql = mysqli_query($koneksi, "UPDATE satuan SET nama_satuan='$nama_satuan' WHERE id='$id'") or die(mysqli_error($koneksi));
                 
                 if($sql){
                   echo '<script>alert("Berhasil menyimpan data."); document.location="?page=satuan";</script>';
